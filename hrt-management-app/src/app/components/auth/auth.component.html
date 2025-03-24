@@ -1,0 +1,58 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <mat-card class="w-96 p-8">
+    <mat-card-header>
+      <mat-card-title>
+        <h1 class="text-2xl font-bold">{{ isLogin ? "Login" : "Register" }}</h1>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form
+        [formGroup]="authForm"
+        (ngSubmit)="onSubmit()"
+        class="flex flex-col gap-4 mt-4"
+      >
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email" />
+          <mat-error *ngIf="authForm.get('email')?.hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="authForm.get('email')?.hasError('email')">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" type="password" />
+          <mat-error *ngIf="authForm.get('password')?.hasError('required')">
+            Password is required
+          </mat-error>
+          <!-- <mat-error *ngIf="authForm.get('password')?.hasError('minLength')">
+            Password should be at least 8 characters long
+          </mat-error> -->
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="authForm.invalid"
+        >
+          {{ isLogin ? "Login" : "Register" }}
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-button (click)="toggleAuthMode()">
+        {{
+          isLogin
+            ? "Need an account? Register"
+            : "Already have an account? Login"
+        }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

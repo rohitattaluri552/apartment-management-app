@@ -1,0 +1,15 @@
+:host {
+  mat-form-field {
+    ::ng-deep {
+      .mdc-text-field--outlined:not(
+          .mdc-text-field--disabled
+        ).mdc-text-field--focused
+        .mdc-notched-outline__trailing {
+        border-top-style: none; /* Or border-style: none; for all sides */
+        border-right-style: none; /* Or border-style: none; for all sides */
+        border-bottom-style: none; /* Or border-style: none; for all sides */
+        border-width: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+<mat-sidenav-container class="h-screen">
+  @if(authService.isAuthenticated()) {
+  <mat-sidenav #sidenav mode="side" opened class="w-64 p-4">
+    <div class="flex flex-col h-full">
+      <h1 class="text-2xl font-bold mb-8">HRT SAINIRMAN</h1>
+
+      <mat-nav-list>
+        @for(menu of menuItems; track menu.title){
+        <a
+          mat-list-item
+          [routerLink]="menu.routeLink"
+          routerLinkActive="active"
+        >
+          <mat-icon>{{ menu.icon }}</mat-icon>
+          <div class="ml-2">{{ menu.title }}</div>
+        </a>
+        }
+      </mat-nav-list>
+
+      <div class="mt-auto">
+        <button mat-button (click)="logout()" class="w-full">
+          <mat-icon>exit_to_app</mat-icon>
+          <span class="ml-2">Logout</span>
+        </button>
+      </div>
+    </div>
+  </mat-sidenav>
+  }
+  <mat-sidenav-content class="p-4">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
