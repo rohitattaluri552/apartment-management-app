@@ -1,17 +1,11 @@
-POST http://localhost:3000/v1/register
+POST http://localhost:3000/api/complaints
 Content-Type: application/json
 
 {
-  "username": "rohitddhadda@adsfam.com",
-  "password": "123456"
+  "name": "Rohit",
+  "description": "lights not working properly near the entrance of the building",
+  "files": null
 }
 
 ###
-http://localhost:3000/
-
-
-###
-POST http://localhost:3000/register
-Content-Type: application/json
-
-{}
+http://localhost:3000/admin

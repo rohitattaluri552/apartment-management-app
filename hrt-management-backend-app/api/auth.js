@@ -2,29 +2,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const cors = require("cors");
 const jwt = require("jsonwebtoken");
 
-// App Initialization
-const app = express();
-const MONGODB_COMPASS =
-  "mongodb+srv://hrtsainirman:<hrtsainirman>@apartment-management.hvndh.mongodb.net/?retryWrites=true&w=majority&appName=apartment-management";
-// "mongodb+srv://hrtsainirman:<hrtsainirman>@apartment-management.hvndh.mongodb.net/";
-const MONGO_URL = "mongodb://localhost:27017/auth-demo";
-
-const corsOptions = {
-  origin: "*", // Allow only this domain
-  methods: "GET,POST,PUT,DELETE", // Allow only specific HTTP methods
-  allowedHeaders: "Content-Type,Authorization", // Allow specific headers
-};
-
-app.use(express.json());
-app.use(cors(corsOptions));
-// MongoDB Connection
-mongoose
-  .connect(MONGO_URL)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
+const authRouter = express.Router();
 
 // User Schema & Model
 const userSchema = new mongoose.Schema({
@@ -34,7 +14,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 // Register Endpoint
-app.post("/v1/register", async (req, res) => {
+authRouter.post("/v1/register", async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -59,7 +39,7 @@ app.post("/v1/register", async (req, res) => {
 });
 
 // Login Endpoint
-app.post("/v1/login", async (req, res) => {
+authRouter.post("/v1/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -84,8 +64,4 @@ app.post("/v1/login", async (req, res) => {
   }
 });
 
-// Start Server
-const PORT = 3000;
-app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
-);
+module.exports = authRouter;
