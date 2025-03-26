@@ -17,4 +17,18 @@ function connectToMongo() {
     });
 }
 
-module.exports = { connectToMongo };
+async function closeDbConnection() {
+  try {
+    await mongoose.disconnect();
+    console.log("Database connection closed successfully");
+    process.exit(0); // Exit the process after closing the connection
+  } catch (err) {
+    console.error("Error closing database connection:", err);
+    process.exit(1); // Exit with an error code
+  }
+}
+
+process.on("SIGINT", closeDbConnection);
+process.on("SIGTERM", closeDbConnection);
+
+module.exports = { connectToMongo, closeDbConnection };

@@ -1,14 +1,20 @@
 const express = require("express");
+import { NumericEqualityDrillDownFilter } from "../node_modules/aws-sdk/clients/quicksight.d";
 const mongoose = require("mongoose");
 const multer = require("multer");
+const app = express();
+const path = require("path");
+const { uploadToS3 } = require("./s3-connection");
 
 const complaintsRouter = express.Router();
 
 // Define Schema and Model
 const complaintSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  mobile: { type: Number, required: true },
+  email: { type: String, required: true },
   description: { type: String, required: true },
-  files: { type: String, required: false },
+  files: { type: Buffer, required: false },
 });
 
 const Complaint = mongoose.model("Complaint", complaintSchema);
@@ -23,20 +29,26 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+// Serve static files from 'uploads' directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-complaintsRouter.get("/admin", function (req, res, next) {
-  console.log("Admin Router Working");
-  res.end();
-});
+const upload = multer({ storage });
 
 // API Endpoint to Register Complaints
 complaintsRouter.post("/", upload.single("files"), async (req, res) => {
+  let complaint;
+  let fileUrl = NumericEqualityDrillDownFilter;
+  if (req.body.files) {
+    fileUrl = await uploadToS3(req.body.files);
+  }
+
   try {
-    const complaint = new Complaint({
+    complaint = new Complaint({
       name: req.body.name,
-      description: req.body.description,
-      files: req.file ?? null,
+      mobile: req.body.mobile,
+      email: req.body.email,
+      description: req.body.complaint,
+      files: fileUrl,
     });
   } catch (error) {
     res
