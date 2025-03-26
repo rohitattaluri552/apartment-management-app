@@ -1,0 +1,104 @@
+<div class="form-container">
+  <h2 class="form-header">Register Your Complaint</h2>
+  <form
+    [formGroup]="complaintForm"
+    (ngSubmit)="submitComplaint()"
+    class="complaint-form"
+  >
+    <!-- Name Field -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" placeholder="Enter your name" />
+      <mat-error *ngIf="complaintForm.get('name')?.hasError('required')"
+        >Name is required.</mat-error
+      >
+    </mat-form-field>
+
+    <!-- Mobile Field -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Mobile</mat-label>
+      <input
+        matInput
+        formControlName="mobile"
+        maxLength="10"
+        type="number"
+        placeholder="Enter your mobile number"
+      />
+      <mat-error *ngIf="complaintForm.get('mobile')?.hasError('required')"
+        >Mobile number is required.</mat-error
+      >
+      <mat-error *ngIf="complaintForm.get('mobile')?.hasError('pattern')"
+        >Invalid mobile number.</mat-error
+      >
+    </mat-form-field>
+
+    <!-- Email Field -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        formControlName="email"
+        placeholder="Enter your email address"
+      />
+      <mat-error *ngIf="complaintForm.get('email')?.hasError('required')"
+        >Email is required.</mat-error
+      >
+      <mat-error *ngIf="complaintForm.get('email')?.hasError('email')"
+        >Invalid email format.</mat-error
+      >
+    </mat-form-field>
+
+    <!-- Complaint Field -->
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Complaint</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="Describe your complaint"
+      ></textarea>
+      <mat-error *ngIf="complaintForm.get('description')?.hasError('required')"
+        >Complaint is required.</mat-error
+      >
+      <mat-error
+        *ngIf="complaintForm.get('description')?.hasError('minlength')"
+      >
+        Complaint must be at least 10 characters long.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- File Upload Field -->
+    <div class="file-upload">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="fileInput.click()"
+      >
+        <mat-icon>upload</mat-icon> Choose File
+      </button>
+      <input
+        #fileInput
+        type="file"
+        hidden
+        multiple
+        (change)="onFileSelected($event)"
+        accept=".jpg,.jpeg,.png,.pdf"
+      />
+      <span *ngIf="complaintForm.get('files')?.value">{{
+        complaintForm.get("files")?.value?.name
+      }}</span>
+    </div>
+
+    <!-- Submit Button -->
+    <button
+      mat-raised-button
+      color="accent"
+      type="submit"
+      class="submit-button"
+    >
+      Submit Complaint
+    </button>
+
+    <!-- [disabled]="complaintForm.invalid" -->
+  </form>
+</div>

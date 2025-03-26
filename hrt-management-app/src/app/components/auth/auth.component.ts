@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../services/auth.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { max } from "date-fns";
+import { tap } from "rxjs";
 
 @Component({
   selector: "app-auth",
@@ -18,8 +18,8 @@ export class AuthComponent {
     private snackBar: MatSnackBar
   ) {
     this.authForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]],
-      password: ["", Validators.required],
+      email: ["hrt@gmail.com", [Validators.required, Validators.email]],
+      password: ["12345678", Validators.required],
     });
   }
 
@@ -30,22 +30,27 @@ export class AuthComponent {
         if (this.isLogin) {
           this.authService.signIn(email, password);
         } else {
-          this.authService.signUp(email, password).subscribe((data) => {
-            next: ({ message }: { message: string }) => {
-              if (message) {
-                this.snackBar.open(
-                  "Registration successful! Please login.",
-                  "Close",
-                  {
-                    duration: 3000,
-                  }
-                );
-              }
-            };
-            error: (err: any) => console.error("Error signing up:", err);
-          });
-          this.authForm.reset();
-          this.isLogin = true;
+          this.authService
+            .signUp(email, password)
+            .pipe(tap(console.log))
+            .subscribe({
+              next: ({ message }: { message: string }) => {
+                console.log("Signed up successfully!", message);
+                if (message) {
+                  this.snackBar.open(
+                    "Registration successful! Please login.",
+                    "Close",
+                    {
+                      duration: 3000,
+                    }
+                  );
+                }
+
+                this.authForm.reset();
+                this.isLogin = true;
+              },
+              error: (err: any) => console.error("Error signing up:", err),
+            });
         }
       } catch (error: any) {
         this.snackBar.open(error.message || "An error occurred", "Close", {

@@ -1,0 +1,86 @@
+.form-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+  .form-header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .complaint-form {
+    .form-field {
+      width: 100%;
+      margin-bottom: 16px;
+
+      /* Remove vertical line after label in Material fields */
+      ::ng-deep {
+        .mat-mdc-text-field-wrapper {
+          .mdc-notched-outline {
+            .mdc-notched-outline__leading,
+            .mdc-notched-outline__trailing {
+              border-width: 1px !important;
+            }
+          }
+
+          .mat-mdc-form-field-label {
+            color: rgba(0, 0, 0, 0.6); /* Adjust label color if needed */
+          }
+
+          .mat-mdc-form-field-required-marker {
+            color: rgba(
+              0,
+              0,
+              0,
+              0.6
+            ); /* Adjust required marker color if needed */
+          }
+
+          .mdc-notched-outline__notch {
+            border-right: none !important;
+            border-left: none !important;
+
+            .mdc-floating-label {
+              border-right: none !important;
+              border-left: none !important;
+            }
+          }
+
+          &.mat-form-field-should-float {
+            .mdc-notched-outline {
+              .mdc-notched-outline__notch {
+                border-right: none !important;
+                border-left: none !important;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .file-upload {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      button {
+        display: flex;
+        align-items: center;
+      }
+
+      span {
+        font-size: 14px;
+      }
+    }
+
+    .submit-button {
+      display: block;
+      margin-top: 24px;
+    }
+  }
+}
