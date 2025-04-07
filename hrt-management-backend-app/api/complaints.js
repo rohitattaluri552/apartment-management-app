@@ -1,5 +1,4 @@
 const express = require("express");
-import { NumericEqualityDrillDownFilter } from "../node_modules/aws-sdk/clients/quicksight.d";
 const mongoose = require("mongoose");
 const multer = require("multer");
 const app = express();

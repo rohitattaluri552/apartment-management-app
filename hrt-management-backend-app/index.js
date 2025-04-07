@@ -7,6 +7,7 @@ const cors = require("cors");
 const multer = require("multer");
 const { json } = require("body-parser");
 const { connectToMongo } = require("./server");
+const zoomRouter = require("./api/zoom");
 
 // Middleware to parse JSON bodies
 app.use(json());
@@ -20,8 +21,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use("/api/complaints", complaintsRouter);
+// app.use("/api/complaints", complaintsRouter);
 app.use(authRouter);
+app.use(zoomRouter);
 
 // Connect to MongoDB and start the server
 function connectToMongoDb() {
